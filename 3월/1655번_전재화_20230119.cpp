@@ -2,8 +2,8 @@
 #include <queue>
 using namespace std;
 
-priority_queue<int, vector<int>, less<int>>		greaterQueue;
-priority_queue<int, vector<int>, greater<int>>	lessQueue;
+priority_queue<int, vector<int>, less<int>>		maxHeap;
+priority_queue<int, vector<int>, greater<int>>	minHeap;
 int N;
 int input;
 int goToLess, goToGreater;
@@ -21,27 +21,27 @@ int main(void)
 		cin >> input;
 
 		/* empty case */
-		if (greaterQueue.size() == 0)
-			greaterQueue.push(input);
+		if (maxHeap.size() == 0)
+			maxHeap.push(input);
 		else
 		{
 			/* build Queue -> The size of greaterQ is the same as the size of lessQ, or 1 large */
-			if (greaterQueue.size() == lessQueue.size())
-				greaterQueue.push(input);
+			if (maxHeap.size() == minHeap.size())
+				maxHeap.push(input);
 			else
-				lessQueue.push(input);
+				minHeap.push(input);
 
 			/* rebuild Queue -> greaterQ must retain bottom half and lessQ must retain top half */
-			if ((goToLess = greaterQueue.top()) > (goToGreater = lessQueue.top()))
+			if ((goToLess = maxHeap.top()) > (goToGreater = minHeap.top()))
 			{
-				greaterQueue.pop();
-				greaterQueue.push(goToGreater);
-				lessQueue.pop();
-				lessQueue.push(goToLess);
+				maxHeap.pop();
+				maxHeap.push(goToGreater);
+				minHeap.pop();
+				minHeap.push(goToLess);
 			}
 		}
 
 		/* print answer */
-		cout << greaterQueue.top() << '\n';
+		cout << maxHeap.top() << '\n';
 	}
 }
