@@ -123,7 +123,7 @@ int main(void)
 	ios::sync_with_stdio(false);
 	cin.tie(NULL);
 	cout.tie(NULL);
-
+	/* 입력 처리 */
 	cin >> R >> C;
 	bool swan0Find = false;
 	for (int i = 0; i < R; i++)
@@ -156,7 +156,7 @@ int main(void)
 			}
 		}
 	}
-
+	/* 작업 시작 */
 	while (1)
 	{
 		moveSwan();
