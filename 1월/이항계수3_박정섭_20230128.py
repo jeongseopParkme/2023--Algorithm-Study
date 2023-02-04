@@ -9,3 +9,4 @@ def solution(n,k):
     return int(ans)%1000000007
 
 print(solution(n,m))
+print(list(range(5,0,-1)))

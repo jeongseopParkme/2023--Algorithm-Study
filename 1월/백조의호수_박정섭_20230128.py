@@ -1,69 +1,70 @@
-import heapq as hq
+from collections import deque
+import sys
 
-a,b = map(int, input().split())
-graph = []
+input = sys.stdin.readline
+dx=[-1,1,0,0]
+dy=[0,0,-1,1]
 
-for _ in range(a):
-    graph.append(list(input()))
+def move_swan():
+    while q1:
+        x,y = q1.popleft()
+        if (x,y)==(swan[1][0],swan[1][1]):  #만약 백조2의 좌표를 백조1이 방문했었으면, 그때의 시간을 반환한다
+            return True
+        for i in range(4):  #이동할 수 공간이 있는지 확인한다
+            cx,cy=x+dx[i],y+dy[i]
+            if (0<=cx<r and 0<=cy<c):
+                if swan_visited[cx][cy]==False:
+                    if board[cx][cy]=='.':   #상하 좌우로 확인했는데 만약 얼음이 없고 방문하지 않은 곳이면 q1에 삽입하고 해당 좌표를 방문했다고 한다
+                        q1.append([cx,cy])
+                    elif board[cx][cy]=='X': #방문하지 않은 곳인데 얼음인 곳은 하루가 지나면 방문할 좌표이다. 그러니 다음 좌표를 보관하는 q2에 삽입한다.
+                        q2.append([cx,cy])
+                    swan_visited[cx][cy]=True
+    return False
 
-def solution(a,b, graph):
-    
-    tmp_graph=[[1500]*b for _ in range(a)]
-    dx=[-1,1,0,0]
-    dy=[0,0,-1,1]
-
-    for i in range(a):
-        for j in range(b):
-            if graph[i][j]=='L':
-                x1=i
-                y1=j
-                break
-
-    for i in range(a):
-        for j in range(b):
-            if graph[i][j]=='L' and (i,j)!=(x1,y1):
-                x2=i
-                y2=j
-                break
-
-    for i in range(a):
-        for j in range(b):
-            if graph[i][j]=='.' or graph[i][j]=='L':
-                tmp_graph[i][j]=0
-
-    heap=[]
-    for i in range(a):
-        for j in range(b):
-            if tmp_graph[i][j]==0:
-                hq.heappush(heap,(0,i,j))
-    
-    while heap:
-        d,x,y = hq.heappop(heap)
+def melt_lake():
+    while q3:
+        x,y = q3.popleft()
+        if board[x][y]=='X':
+            board[x][y]='.'
         for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx<a and nx>=0 and ny<b and ny>=0:
-                if tmp_graph[nx][ny]==1500:
-                    hq.heappush(heap,(d+1,nx,ny))
-                    tmp_graph[nx][ny]=d+1
-            else:
-                continue
-    
-    heap=[(0,x1,y1)]
-    visited=[[False]*b for _ in range(a)]
-    visited[x1][y1]==True
+            cx,cy=x+dx[i],y+dy[i]
+            if (0<=cx<r and 0<=cy<c):
+                if lake_visited[cx][cy]==False:  #상하 좌우로 확인해 얼음인 곳을 q4 넣어준다.
+                    if board[cx][cy]=='X':
+                        q4.append([cx,cy])
+                    else:
+                        q3.append([cx,cy])
+                    lake_visited[cx][cy]=True
+    return
 
-    while heap:
-        d,x,y=hq.heappop(heap)
-        if x==x2 and y==y2:
-            return d
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if nx<a and nx>=0 and ny<b and ny>=0:
-                if visited[nx][ny]==False:
-                    visited[nx][ny]=True
-                    hq.heappush(heap,(max(tmp_graph[nx][ny],d),nx,ny))
-    return 0
+r,c = map(int, input().split())
+board = []
+q1,q2,q3,q4 = deque(), deque(), deque(), deque()
+swan=[]
+swan_visited=[[False]*c for _ in range(r)]
+lake_visited=[[False]*c for _ in range(r)]
 
-print(solution(a,b,graph))
+for i in range(r):
+    row = list(input().strip())
+    board.append(row)
+    for j in range(c):
+        if board[i][j]=='L':
+            swan.append([i,j])  #swan[0]은 백조1의 좌표, swan[1]은 백조2의 좌표이다
+            q3.append([i,j])
+        elif board[i][j]=='.':
+            q3.append([i,j])
+            lake_visited[i][j]=True   # visited[][][1]은 해당 시간에 호수에 남은 얼음을 의미한다
+
+time=0
+q1.append((swan[0][0],swan[0][1]))
+board[swan[0][0]][swan[0][1]], board[swan[1][0]][swan[1][1]] = '.', '.'
+swan_visited[swan[0][0]][swan[0][1]]=True #visited[][][0]은 백조1이 해당 시간에 갈 수 있는 좌표들을 의미한다
+
+while True:
+    melt_lake()
+    if move_swan():
+        print(time)
+        break
+    q1,q3 = q2, q4
+    q2,q4= deque(), deque()
+    time+=1
