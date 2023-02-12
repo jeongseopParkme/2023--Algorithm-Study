@@ -1,18 +1,18 @@
 /*
-*	µğ¹ö±ëÇÏ´Âµ¥ ¸¹Àº ½Ã°£À» ¾¸
+*	ë””ë²„ê¹…í•˜ëŠ”ë° ë§ì€ ì‹œê°„ì„ ì”€
 * 
-*	1. isfloatÇÔ¼ö¿¡¼­ clusterÀÇ ¸ğµç ÁÂÇ¥¸¦ visited·Î Ç¥½ÃÇØÁà¾ß ÇÏ´Âµ¥ ¹Ù´Ú¿¡
-*		À§Ä¡ÇÑ ¹Ì³×¶öÀÌ º¸ÀÌ¸é ¹Ù·Î returnÇÏµµ·Ï ÇØ¼­ visited¿¡ clusterÀÇ ÀÏºÎ°¡ false·Î Ç¥½ÃµÊ
-*		--> ÇÏ³ªÀÇ clusterÁö¸¸ ´Ù¸¥ cluster·Î ÀÎ½ÄÇÏ´Â ¿À·ù
+*	1. isfloatí•¨ìˆ˜ì—ì„œ clusterì˜ ëª¨ë“  ì¢Œí‘œë¥¼ visitedë¡œ í‘œì‹œí•´ì¤˜ì•¼ í•˜ëŠ”ë° ë°”ë‹¥ì—
+*		ìœ„ì¹˜í•œ ë¯¸ë„¤ë„ì´ ë³´ì´ë©´ ë°”ë¡œ returní•˜ë„ë¡ í•´ì„œ visitedì— clusterì˜ ì¼ë¶€ê°€ falseë¡œ í‘œì‹œë¨
+*		--> í•˜ë‚˜ì˜ clusterì§€ë§Œ ë‹¤ë¥¸ clusterë¡œ ì¸ì‹í•˜ëŠ” ì˜¤ë¥˜
 * 
-*	2. isclusterÇÔ¼öÀÇ ÃÊ±âÈ­¸¦ isfloatÇÔ¼ö°¡ È£ÃâµÉ ¶§¸¶´Ù ÇØ¾ßÇÏ´Âµ¥ findFloatClusterÇÔ¼ö¿¡¼­ ÇØÁÖ´Â ¿À·ù
+*	2. isclusterí•¨ìˆ˜ì˜ ì´ˆê¸°í™”ë¥¼ isfloatí•¨ìˆ˜ê°€ í˜¸ì¶œë  ë•Œë§ˆë‹¤ í•´ì•¼í•˜ëŠ”ë° findFloatClusterí•¨ìˆ˜ì—ì„œ í•´ì£¼ëŠ” ì˜¤ë¥˜
 * 
-*	3. moveclusterÇÔ¼ö¿¡¼­ ¹Ù´Ú¿¡ ¹Ì³×¶öÀÌ ÀÖ´Â °æ¿ì num--ÀÇ ´ë»óÀÎµ¥, ¹Ù´ÚÀÏ °æ¿ì breakÇÏ´Â if¹®À» °¡Àå ¸ÕÀú »ç¿ëÇØ¼­ 
-*		¹Ù´Ú¿¡ ¹Ì³×¶öÀÌ ÀÖ´Â °æ¿ì Á¤»óÀûÀÎ °æ¿ìº¸´Ù numÀÌ +1 Ä¿Áö´Â ¿À·ù
+*	3. moveclusterí•¨ìˆ˜ì—ì„œ ë°”ë‹¥ì— ë¯¸ë„¤ë„ì´ ìˆëŠ” ê²½ìš° num--ì˜ ëŒ€ìƒì¸ë°, ë°”ë‹¥ì¼ ê²½ìš° breakí•˜ëŠ” ifë¬¸ì„ ê°€ì¥ ë¨¼ì € ì‚¬ìš©í•´ì„œ 
+*		ë°”ë‹¥ì— ë¯¸ë„¤ë„ì´ ìˆëŠ” ê²½ìš° ì •ìƒì ì¸ ê²½ìš°ë³´ë‹¤ numì´ +1 ì»¤ì§€ëŠ” ì˜¤ë¥˜
 * 
-*	Ç®ÀÌ´Â ±¸Çö + BFS
+*	í’€ì´ëŠ” êµ¬í˜„ + BFS
 *	
-*	@¹Ù´Ú¿¡ ÀÖ´Â ¹Ì³×¶öµéÀ» ´ë»óÀ¸·Î BFS¸¦ ÁøÇàÇÏ°í, visitedÃ¼Å©°¡ ¾ÈµÈ ¹Ì³×¶öÀ» floatCluster·Î ÆÇ´ÜÇÏ´Â ¹æ¹ıÀÌ Á¶±İ ´õ È¿À²ÀûÀÏ µí
+*	@ë°”ë‹¥ì— ìˆëŠ” ë¯¸ë„¤ë„ë“¤ì„ ëŒ€ìƒìœ¼ë¡œ BFSë¥¼ ì§„í–‰í•˜ê³ , visitedì²´í¬ê°€ ì•ˆëœ ë¯¸ë„¤ë„ì„ floatClusterë¡œ íŒë‹¨í•˜ëŠ” ë°©ë²•ì´ ì¡°ê¸ˆ ë” íš¨ìœ¨ì ì¼ ë“¯
 */
 
 #include <iostream>
@@ -49,12 +49,12 @@ bool compare(COOR a, COOR b)
 	return a.y > b.y;
 }
 
-/* ¹Ì³×¶ö Áß ¹Ù´ÚÁÂÇ¥¿¡ ÀÖ´Â ¹Ì³×¶öÀÌ ÀÖÀ¸¸é floatCluster°¡ ¾Æ´Ô */
+/* ë¯¸ë„¤ë„ ì¤‘ ë°”ë‹¥ì¢Œí‘œì— ìˆëŠ” ë¯¸ë„¤ë„ì´ ìˆìœ¼ë©´ floatClusterê°€ ì•„ë‹˜ */
 bool isfloat(int y, int x)
 {
 	cluster.clear();
-	memset(iscluster, 0, sizeof(iscluster)); //¿À·ù 2
-	bool val = true; //¿À·ù 1
+	memset(iscluster, 0, sizeof(iscluster)); //ì˜¤ë¥˜ 2
+	bool val = true; //ì˜¤ë¥˜ 1
 
 	queue<COOR> q;
 	q.push({ y,x });
@@ -69,7 +69,7 @@ bool isfloat(int y, int x)
 		iscluster[now.y][now.x] = true;
 
 		if (now.y == R - 1)
-			val = false; //¿À·ù 1
+			val = false; //ì˜¤ë¥˜ 1
 
 		for (int i = 0; i < 4; i++)
 		{
@@ -82,7 +82,7 @@ bool isfloat(int y, int x)
 		}
 	}
 
-	return val; //¿À·ù 1
+	return val; //ì˜¤ë¥˜ 1
 }
 
 bool findFloatCluster(void)
@@ -101,7 +101,7 @@ bool findFloatCluster(void)
 	return false;
 }
 
-/* floatClusterÀÇ ¸ğµç ¹Ì³×¶öÀ» Á¶»ç => ³»·Á°¡´Ù°¡ ³» ÀÚ½Å cluster¸¦ ¸¸³ª¸é Á¶»ç ´ë»óÀÌ ¾Æ´Ô */
+/* floatClusterì˜ ëª¨ë“  ë¯¸ë„¤ë„ì„ ì¡°ì‚¬ => ë‚´ë ¤ê°€ë‹¤ê°€ ë‚´ ìì‹  clusterë¥¼ ë§Œë‚˜ë©´ ì¡°ì‚¬ ëŒ€ìƒì´ ì•„ë‹˜ */
 void moveCluster(void)
 {
 	int downNumber = CANNOTDOWN;
@@ -118,7 +118,7 @@ void moveCluster(void)
 				num--;
 				break;
 			}
-			else if (temp.y + num == R - 1) //¿À·ù 3
+			else if (temp.y + num == R - 1) //ì˜¤ë¥˜ 3
 				break;
 			else if (map[temp.y + num][temp.x] == 'x' && iscluster[temp.y + num][temp.x] == true)
 			{
@@ -182,13 +182,13 @@ int main(void)
 				}
 			}
 		}
-		/* ÇÙ½É ÄÚµå */
+		/* í•µì‹¬ ì½”ë“œ */
 		if(findFloatCluster())
 		{
 			moveCluster();
 		}
 	}
-	/* Á¤´ä Ãâ·Â */
+	/* ì •ë‹µ ì¶œë ¥ */
 	for (int i = 0; i < R; i++)
 	{
 		for (int j = 0; j < C; j++)

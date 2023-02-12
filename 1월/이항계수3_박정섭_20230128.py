@@ -1,12 +1,18 @@
-n,m = map(int,input().split())
+n,k = map(int,input().split())
+div=1000000007
 
-def solution(n,k):
-    ans=1
-    for i in range(n-k+1,n+1):
-        ans*=i
-    for j in range(1,k+1):
-        ans/=j
-    return int(ans)%1000000007
+def power(n,p):
+    if p==0:
+        return 1
+    if p%2==1:
+        return (power(n,p//2)**2*n)%div
+    else:
+        return (power(n,p//2)**2)%div
 
-print(solution(n,m))
-print(list(range(5,0,-1)))
+def fac(n):
+    num = 1
+    for i in range(2,n+1):
+        num = (num * i)%div
+    return num
+
+print((fac(n)*(power(fac(n-k)*fac(k),div-2)))%div)
