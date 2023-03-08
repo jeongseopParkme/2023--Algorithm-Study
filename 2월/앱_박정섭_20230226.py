@@ -9,7 +9,6 @@ costs=list(map(int,input().split()))
 
 max_values=[0]*10001
 memory_and_costs = list(zip(memory,costs))
-memory_and_costs.sort(key=lambda x:(x[1],-x[0]))
 
 for i in range(n):
     tmp=[]
