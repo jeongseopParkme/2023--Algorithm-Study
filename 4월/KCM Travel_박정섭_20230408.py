@@ -29,14 +29,13 @@ for _ in range(t):
         cur_time,cur_cost,cur_node = hq.heappop(heap)
         if cur_time > dp[cur_node][cur_cost]:
             continue
-        else:
-            for c in range(cur_cost,m+1):
-                if dp[cur_node][c] > cur_time:
-                    dp[cur_node][c]=cur_time
-                else:
-                    break
         for v,c,d in edges[cur_node]:
-            if cur_cost+c <= m:
+            if cur_cost+c <= m and cur_time+d < dp[v][cur_cost+c]:
+                for i in range(cur_cost+c,m+1):
+                    if dp[v][i] > cur_time+d:
+                        dp[v][i]=cur_time+d
+                    else:
+                        break
                 hq.heappush(heap,(cur_time+d,cur_cost+c,v))
 
     if dp[n][m]==INF:
